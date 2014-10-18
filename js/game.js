@@ -4,39 +4,25 @@
 // scene object variables
 var renderer, scene, camera, pointLight, spotLight;
 
-// field variables
-var fieldWidth = 400, fieldHeight = 200;
-
-// paddle variables
-var paddleWidth, paddleHeight, paddleDepth, paddleQuality;
-var paddle1DirY = 0, paddle2DirY = 0, paddleSpeed = 3;
-
-// ball variables
-var ball, paddle1, paddle2;
-var ballDirX = 1, ballDirY = 1, ballSpeed = 2;
-
 // game-related variables
-var score1 = 0, score2 = 0;
-// you can change this to any positive whole number
-var maxScore = 7;
+var score = 0;
 
-// set opponent reflexes (0 - easiest, 1 - hardest)
+// (0 - easiest, 1 - hardest)
 var difficulty = 0.2;
 
 
 function setup()
 {
-	
-	// now reset player and opponent scores
-	score1 = 0;
-	score2 = 0;
-	
+	// now reset player score
+	score = 0;
+
 	// set up all the 3D objects in the scene	
 	createScene();
 	
 	// and let's get cracking!
 	draw();
 }
+
 
 function createScene()
 {
@@ -78,29 +64,12 @@ function createScene()
 	c.appendChild(renderer.domElement);
 
 
-
-    // set up the sphere vars
-    // lower 'segment' and 'ring' values will increase performance
-    var radius = 5,
-    segments = 6,
-    rings = 6;
     
-    // create the sphere's material
-    var sphereMaterial =
-    new THREE.MeshLambertMaterial(
-    {
-        color: 0xD43001
-    });
+    // add the telescopes to the scene
+    scene.add(make_telescope(100, 100, 100));
+    scene.add(make_telescope(-100, -100, -100));
+    scene.add(make_telescope(0, 0, 0 ));
     
-    // Create a ball with sphere geometry
-    var ball = new THREE.Mesh(
-        new THREE.SphereGeometry(radius,
-        segments,
-        rings),
-        sphereMaterial);
-    
-    // add the sphere to the scene
-    scene.add(ball);
     
     // // create a point light
     pointLight = new THREE.PointLight(0xF8D898);
@@ -118,6 +87,31 @@ function createScene()
     draw();
 }
  
+function make_telescope(x, y, z){
+    // set up the telescope mesh vars (currently a sphere)
+    // lower 'segment' and 'ring' values will increase performance
+    var radius = 10,
+    segments = 6,
+    rings = 6;
+    
+    // create the telescope's material
+    var sphereMaterial =
+    new THREE.MeshLambertMaterial(
+    {
+        color: 0xD43001
+    });
+    
+    // Create a telescope
+    var ball = new THREE.Mesh(
+        new THREE.SphereGeometry(radius,
+        segments,
+        rings),
+        sphereMaterial);
+    
+    ball.position.x = x;
+    ball.position.y = y;
+    ball.position.z = z;
+}
  
 function draw()
 {
