@@ -133,6 +133,7 @@ function draw()
     	;  // do something?
     }
     
+    drawInterferenceLine();
     
  
   // loop the draw() function
