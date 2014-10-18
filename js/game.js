@@ -111,6 +111,8 @@ function make_telescope(x, y, z){
     ball.position.x = x;
     ball.position.y = y;
     ball.position.z = z;
+    
+    return ball;
 }
  
 function draw()
