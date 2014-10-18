@@ -6,19 +6,37 @@ var renderer, scene, camera, pointLight, spotLight;
 
 // game-related variables
 var score = 0;
+var telescopes = [make_telescope(100, 100, 100), make_telescope(-100, -100, -100), make_telescope(0, 0, 0 )];
 
 // (0 - easiest, 1 - hardest)
 var difficulty = 0.2;
 
 
+function getRandomTelescopeAlignment(){
+    // returns new telescope alignment
+    return {timeShift: Math.random()-1.0,
+        rotation: Math.random()*360,
+        trackPostion:  Math.random()  // TODO: scale this
+    };
+}
+
+function randomizeTelescopes(){
+    // randomizes all the telescope alignments
+    for (i in telescopes){
+        telescopes[i].alignment_params = getRandomTelescopeAlignment();
+    }
+}
+
 function setup()
 {
 	// now reset player score
 	score = 0;
+    randomizeTelescopes();
 
 	// set up all the 3D objects in the scene	
 	createScene();
-	
+
+
 	// and let's get cracking!
 	draw();
 }
@@ -98,7 +116,6 @@ function createScene()
 
     
     // add the telescopes to the scene
-    telescopes = [make_telescope(100, 100, 100), make_telescope(-100, -100, -100), make_telescope(0, 0, 0 )];
     for (tele in telescopes){
     	scene.add(telescopes[tele]);
     }
@@ -145,13 +162,56 @@ function make_telescope(x, y, z){
     return ball;
 }
 
+function getTelescopeColor(num){
+    // returns a color for each number, looping around if we run out of colors
+    var n_cases = 3;
+    switch(parseInt(num)){
+        case 0:
+            return 'orange';
+            break;
+        case 1:
+            return 'blue';
+            break;
+        case 2:
+            return 'green';
+            break;
+        default:
+            console.log('duplicate color for telescope #', num);
+            return getTelescopeColor(num-n_cases);
+            break;
+    }
+}
+
+function drawTelescopeLines(alignment, color, ctx){
+
+    ctx.fillStyle=color;
+    var H = 50,
+        PAD = 0,
+        W = WIDTH/12;
+    var x = 0;
+    var dx = W*2 + W*2*alignment.timeShift;
+    //console.log('W:', W,  'dx:', dx, 'col:', color);
+    while (x < WIDTH){
+        ctx.rect(x, 0, x+W, H);
+        x += dx;
+    }
+    ctx.fill()
+}
+
 function drawInterferenceLine(){
 	// draws the neato rect at the bottom of the screen...
 	var bar = document.getElementById("interfereBar");
 	var ctx=bar.getContext("2d");
-	ctx.rect(10,50,50,WIDTH-10);
+    var H = 50,
+        PAD = 0;
+    // background
+	ctx.rect(PAD, H, WIDTH-PAD, H);
 	ctx.fillStyle="gray";
 	ctx.fill();
+
+    for (i in telescopes){
+        drawTelescopeLines(telescopes[i], getTelescopeColor(i), ctx);
+    }
 }
  
 function draw()
