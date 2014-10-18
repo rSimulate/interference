@@ -1,36 +1,52 @@
-// set the scene size
-var WIDTH = 640,
-HEIGHT = 360;
- 
-// create a WebGL renderer, camera
-// and a scene
-var renderer = new THREE.WebGLRenderer();
- 
-// start the renderer
-renderer.setSize(WIDTH, HEIGHT);
- 
-// attach the render-supplied DOM element (the gameCanvas)
-var c = document.getElementById("gameCanvas");
-c.appendChild(renderer.domElement);
-
-camera = new THREE.PerspectiveCamera(
-    VIEW_ANGLE,
-    ASPECT,
-    NEAR,
-    FAR);
- 
-scene = new THREE.Scene();
- 
-// add the camera to the scene
-scene.add(camera);
- 
-// set a default position for the camera
-// not doing this somehow messes up shadow rendering
-camera.position.z = 320;
 
 function setup()
 {
- 
+	// update the board to reflect the max score for match win
+	document.getElementById("winnerBoard").innerHTML = "First to " + maxScore + " wins!";
+	
+	// now reset player and opponent scores
+	score1 = 0;
+	score2 = 0;
+	
+	// set up all the 3D objects in the scene	
+	createScene();
+	
+	// and let's get cracking!
+	draw();
+}
+
+function createScene()
+{
+     // set the scene size
+    var WIDTH = 640,
+    HEIGHT = 360;
+     
+    // create a WebGL renderer, camera
+    // and a scene
+    var renderer = new THREE.WebGLRenderer();
+     
+    // start the renderer
+    renderer.setSize(WIDTH, HEIGHT);
+     
+    // attach the render-supplied DOM element (the gameCanvas)
+    var c = document.getElementById("gameCanvas");
+    c.appendChild(renderer.domElement);
+    
+    camera = new THREE.PerspectiveCamera(
+        VIEW_ANGLE,
+        ASPECT,
+        NEAR,
+        FAR);
+     
+    scene = new THREE.Scene();
+     
+    // add the camera to the scene
+    scene.add(camera);
+     
+    // set a default position for the camera
+    // not doing this somehow messes up shadow rendering
+    camera.position.z = 320;
+
     // set up the sphere vars
     // lower 'segment' and 'ring' values will increase performance
     var radius = 5,
