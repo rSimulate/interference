@@ -36,7 +36,7 @@ function createScene()
 	  NEAR = 0.1,
 	  FAR = 10000;
 	
-	canvas = document.getElementById("gameCanvas");
+	var canvas = document.getElementById("gameCanvas");
 	
 	// create a WebGL renderer, camera
 	// and a scene
@@ -116,7 +116,8 @@ function make_telescope(x, y, z){
 
 function drawInterferenceLine(){
 	// draws the neato rect at the bottom of the screen...
-	var ctx=canvas.getContext("2d");
+	var bar = document.getElementById("interfereBar");
+	var ctx=bar.getContext("2d");
 	ctx.rect(10,50,50,WIDTH-10);
 	ctx.fillStyle="gray";
 	ctx.fill();
