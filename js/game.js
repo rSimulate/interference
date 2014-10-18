@@ -27,8 +27,8 @@ function setup()
 function createScene()
 {
 	// set the scene size
-	var WIDTH = 640,
-	  HEIGHT = 360;
+	WIDTH = 640;
+	HEIGHT = 360;
 	
 	// set some camera attributes
 	var VIEW_ANGLE = 50,
@@ -36,7 +36,7 @@ function createScene()
 	  NEAR = 0.1,
 	  FAR = 10000;
 	
-	var c = document.getElementById("gameCanvas");
+	canvas = document.getElementById("gameCanvas");
 	
 	// create a WebGL renderer, camera
 	// and a scene
@@ -61,15 +61,14 @@ function createScene()
 	renderer.setSize(WIDTH, HEIGHT);
 	
 	// attach the render-supplied DOM element
-	c.appendChild(renderer.domElement);
-
-
+	canvas.appendChild(renderer.domElement);
+	
     
     // add the telescopes to the scene
-    scene.add(make_telescope(100, 100, 100));
-    scene.add(make_telescope(-100, -100, -100));
-    scene.add(make_telescope(0, 0, 0 ));
-    
+    telescopes = [make_telescope(100, 100, 100)), make_telescope(-100, -100, -100)), make_telescope(0, 0, 0 ))];
+    for (tele in telescopes){
+    	scene.add(tele);
+    }
     
     // // create a point light
     pointLight = new THREE.PointLight(0xF8D898);
@@ -114,6 +113,14 @@ function make_telescope(x, y, z){
     
     return ball;
 }
+
+function drawInterferenceLine(){
+	// draws the neato rect at the bottom of the screen...
+	var ctx=canvas.getContext("2d");
+	ctx.rect(10,50,50,WIDTH-10);
+	ctx.fillStyle="gray";
+	ctx.fill();
+}
  
 function draw()
 {
@@ -122,7 +129,11 @@ function draw()
 
 
   // process game logic
- 
+     for (tele in telescopes){
+    	;  // do something?
+    }
+    
+    
  
   // loop the draw() function
   requestAnimationFrame(draw);
