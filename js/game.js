@@ -65,7 +65,7 @@ function createScene()
 	
     
     // add the telescopes to the scene
-    telescopes = [make_telescope(100, 100, 100)), make_telescope(-100, -100, -100)), make_telescope(0, 0, 0 ))];
+    telescopes = [make_telescope(100, 100, 100), make_telescope(-100, -100, -100), make_telescope(0, 0, 0 )];
     for (tele in telescopes){
     	scene.add(tele);
     }
